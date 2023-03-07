@@ -3,14 +3,17 @@ This module will serve as automatic notification to watch latest version of hama
 """
 
 import time
+import requests
 
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 
+from config import SMS_CONFIG
+
 options = webdriver.ChromeOptions()
-driver = webdriver.Remote(
-    command_executor="http://localhost:4444/wd/hub", options=options
-)
+options.add_argument("headless")
+options.add_argument("no-sandbox")
+driver = webdriver.Chrome(options=options)
 
 URL = "https://vpn.net/linux"
 
@@ -48,3 +51,12 @@ else:
     print("Saving current version as last version.")
     with open("last.txt", "w", encoding="utf-8") as f:
         f.write(f"{current_version}")
+
+    requests.post(
+        SMS_CONFIG["endpoint"],
+        json={
+            "user": SMS_CONFIG["user"],
+            "pass": SMS_CONFIG["pass"],
+            "msg": f"[AUR] - Hamachi\nNew version available: {current_version}",
+        },
+    )
