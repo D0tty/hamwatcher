@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "mdr"
+version = "0.1.0"
+description = ""
+authors = ["Thomas Michelot <tmichelot@smartadserver.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+selenium = "^4.8.2"
+autopep8 = "^2.0.2"
+pylint = "^2.16.4"
+black = {extras = ["jupyter"], version = "^23.1.0"}
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
