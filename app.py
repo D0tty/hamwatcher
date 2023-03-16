@@ -2,13 +2,13 @@
 This module will serve as automatic notification to watch latest version of hamachi for linux.
 """
 
+import os
 import time
 import requests
 
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 
-from config import SMS_CONFIG
 
 options = webdriver.ChromeOptions()
 options.add_argument("headless")
@@ -53,10 +53,10 @@ else:
         f.write(f"{current_version}")
 
     requests.post(
-        SMS_CONFIG["endpoint"],
+        os.getenv("SMS_CONFIG_ENDPOINT"),
         json={
-            "user": SMS_CONFIG["user"],
-            "pass": SMS_CONFIG["pass"],
+            "user": os.getenv("SMS_CONFIG_USER"),
+            "pass": os.getenv("SMS_CONFIG_PASS"),
             "msg": f"[AUR] - Hamachi\nNew version available: {current_version}",
         },
     )

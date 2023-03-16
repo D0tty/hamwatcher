@@ -13,7 +13,6 @@ RUN mkdir /app
 WORKDIR /app
 
 COPY app.py .
-COPY config.py .
 COPY last.txt .
 COPY pyproject.toml .
 
