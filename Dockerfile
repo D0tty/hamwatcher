@@ -9,7 +9,7 @@ RUN apk add --no-cache \
   python3
 RUN pip install selenium
 
-RUN mkdir /app
+RUN mkdir /app /data
 WORKDIR /app
 
 COPY app.py .

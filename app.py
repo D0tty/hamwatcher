@@ -3,8 +3,9 @@ This module will serve as automatic notification to watch latest version of hama
 """
 
 import os
-import time
 import requests
+import shutil
+import time
 
 from selenium import webdriver
 from selenium.webdriver.common.by import By
@@ -16,6 +17,7 @@ options.add_argument("no-sandbox")
 driver = webdriver.Chrome(options=options)
 
 URL = "https://vpn.net/linux"
+LAST_PATH = "/data/last.txt"
 
 # Navigate to URL
 driver.get(URL)
@@ -35,8 +37,13 @@ current_version = current_version.replace("logmein-hamachi-", "")
 current_version = current_version.replace("-x64.tgz", "")
 current_version = current_version.strip()
 
+# If not initialized get latest version and put it in the desired place
+if not os.path.exists(LAST_PATH):
+    with open(LAST_PATH, "w", encoding="utf-8") as f:
+        f.write(f"FIRST VERSION: {current_version}")
+
 # Get last checked version (should only contain one line)
-with open("last.txt", "r", encoding="utf-8") as f:
+with open(LAST_PATH, "r", encoding="utf-8") as f:
     last_version = f.readlines()[0].strip()
 
 print(f"Last    version: {last_version}")
@@ -49,7 +56,7 @@ else:
     print(f"Last version: {last_version}")
     print(f"New  version: {current_version}")
     print("Saving current version as last version.")
-    with open("last.txt", "w", encoding="utf-8") as f:
+    with open(LAST_PATH, "w", encoding="utf-8") as f:
         f.write(f"{current_version}")
 
     requests.post(
