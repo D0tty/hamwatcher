@@ -5,11 +5,14 @@ This module will serve as automatic notification to watch latest version of hama
 import os
 import requests
 import shutil
+import sys
 import time
 
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 
+def eprint(*args, **kwargs):
+    print(*args, file=sys.stderr, **kwargs)
 
 options = webdriver.ChromeOptions()
 options.add_argument("headless")
@@ -52,10 +55,10 @@ print(f"Current Version: {current_version}")
 if last_version == current_version:
     print("No new version.")
 else:
-    print("There is a new version.")
-    print(f"Last version: {last_version}")
-    print(f"New  version: {current_version}")
-    print("Saving current version as last version.")
+    eprint("There is a new version.")
+    eprint(f"Last version: {last_version}")
+    eprint(f"New  version: {current_version}")
+    eprint("Saving current version as last version.")
     with open(LAST_PATH, "w", encoding="utf-8") as f:
         f.write(f"{current_version}")
 
